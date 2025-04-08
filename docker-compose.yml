@@ -1,0 +1,22 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server/config_local.json:/usr/src/app/server/config.json
+    restart: unless-stopped
+
+  client:
+    image: nginx:alpine
+    ports:
+      - "5500:80"
+    volumes:
+      - ./client:/usr/share/nginx/html
+      - ./shared:/usr/share/nginx/html/shared
+
+    depends_on:
+      - server
+    restart: unless-stopped

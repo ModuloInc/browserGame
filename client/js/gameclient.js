@@ -45,7 +45,8 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
         },
         
         connect: function(dispatcherMode) {
-            var url = "ws://"+ this.host +":"+ this.port +"/",
+            // var url = "ws://"+ this.host +":"+ this.port +"/",
+            var url = "ws://localhost:8000/",
                 self = this;
             
             log.info("Trying to connect to server : "+url);
@@ -318,16 +319,16 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
             var id = data[1],
                 dmg = data[2];
         
-            if(this.dmg_callback) {
+            if(this.dmg_callback) {
                 this.dmg_callback(id, dmg);
             }
         },
-    
+
         receivePopulation: function(data) {
             var worldPlayers = data[1],
                 totalPlayers = data[2];
-        
-            if(this.population_callback) {
+
+            if(this.population_callback) {
                 this.population_callback(worldPlayers, totalPlayers);
             }
         },
