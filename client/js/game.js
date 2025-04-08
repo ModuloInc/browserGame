@@ -864,53 +864,53 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                         }
                     });
                 
-                    if((self.player.gridX <= 85 && self.player.gridY <= 179 && self.player.gridY > 178) || (self.player.gridX <= 85 && self.player.gridY <= 266 && self.player.gridY > 265)) {
+                    if((self.player.gridX <= 85 && self.player.gridY <= 179 && self.player.gridY > 178) || (self.player.gridX <= 85 && self.player.gridY <= 266 && self.player.gridY > 265)) {
                         self.tryUnlockingAchievement("INTO_THE_WILD");
                     }
-                    
+
                     if(self.player.gridX <= 85 && self.player.gridY <= 293 && self.player.gridY > 292) {
                         self.tryUnlockingAchievement("AT_WORLDS_END");
                     }
-                    
+
                     if(self.player.gridX <= 85 && self.player.gridY <= 100 && self.player.gridY > 99) {
                         self.tryUnlockingAchievement("NO_MANS_LAND");
                     }
-                    
+
                     if(self.player.gridX <= 85 && self.player.gridY <= 51 && self.player.gridY > 50) {
                         self.tryUnlockingAchievement("HOT_SPOT");
                     }
-                    
+
                     if(self.player.gridX <= 27 && self.player.gridY <= 123 && self.player.gridY > 112) {
                         self.tryUnlockingAchievement("TOMB_RAIDER");
                     }
-                
+
                     self.updatePlayerCheckpoint();
-                
+
                     if(!self.player.isDead) {
                         self.audioManager.updateMusic();
                     }
                 });
-            
+
                 self.player.onStopPathing(function(x, y) {
                     if(self.player.hasTarget()) {
                         self.player.lookAtTarget();
                     }
-                
+
                     self.selectedCellVisible = false;
-                
+
                     if(self.isItemAt(x, y)) {
                         var item = self.getItemAt(x, y);
-                    
+
                         try {
                             self.player.loot(item);
                             self.client.sendLoot(item); // Notify the server that this item has been looted
                             self.removeItem(item);
                             self.showNotification(item.getLootMessage());
-                        
+
                             if(item.type === "armor") {
                                 self.tryUnlockingAchievement("FAT_LOOT");
                             }
-                            
+
                             if(item.type === "weapon") {
                                 self.tryUnlockingAchievement("A_TRUE_WARRIOR");
                             }
@@ -918,18 +918,18 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                             if(item.kind === Types.Entities.CAKE) {
                                 self.tryUnlockingAchievement("FOR_SCIENCE");
                             }
-                            
+
                             if(item.kind === Types.Entities.FIREPOTION) {
                                 self.tryUnlockingAchievement("FOXY");
                                 self.audioManager.playSound("firefox");
                             }
-                        
+
                             if(Types.isHealingItem(item.kind)) {
                                 self.audioManager.playSound("heal");
                             } else {
                                 self.audioManager.playSound("loot");
                             }
-                            
+
                             if(item.wasDropped && !_(item.playersInvolved).include(self.playerId)) {
                                 self.tryUnlockingAchievement("NINJA_LOOT");
                             }
@@ -942,16 +942,16 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                             }
                         }
                     }
-                
+
                     if(!self.player.hasTarget() && self.map.isDoor(x, y)) {
                         var dest = self.map.getDoorDestination(x, y);
-                    
+
                         self.player.setGridPosition(dest.x, dest.y);
                         self.player.nextGridX = dest.x;
                         self.player.nextGridY = dest.y;
                         self.player.turnTo(dest.orientation);
                         self.client.sendTeleport(dest.x, dest.y);
-                        
+
                         if(self.renderer.mobile && dest.cameraX && dest.cameraY) {
                             self.camera.setGridPosition(dest.cameraX, dest.cameraY);
                             self.resetZone();
@@ -963,7 +963,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                                 self.resetZone();
                             }
                         }
-                        
+
                         if(_.size(self.player.attackers) > 0) {
                             setTimeout(function() { self.tryUnlockingAchievement("COWARD"); }, 500);
                         }
@@ -971,87 +971,87 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                             attacker.disengage();
                             attacker.idle();
                         });
-                    
+
                         self.updatePlateauMode();
-                        
+
                         self.checkUndergroundAchievement();
-                        
+
                         if(self.renderer.mobile || self.renderer.tablet) {
                             // When rendering with dirty rects, clear the whole screen when entering a door.
                             self.renderer.clearScreen(self.renderer.context);
                         }
-                        
+
                         if(dest.portal) {
                             self.audioManager.playSound("teleport");
                         }
-                        
+
                         if(!self.player.isDead) {
                             self.audioManager.updateMusic();
                         }
                     }
-                
+
                     if(self.player.target instanceof Npc) {
                         self.makeNpcTalk(self.player.target);
                     } else if(self.player.target instanceof Chest) {
                         self.client.sendOpen(self.player.target);
                         self.audioManager.playSound("chest");
                     }
-                    
+
                     self.player.forEachAttacker(function(attacker) {
                         if(!attacker.isAdjacentNonDiagonal(self.player)) {
                             attacker.follow(self.player);
                         }
                     });
-                
+
                     self.unregisterEntityPosition(self.player);
                     self.registerEntityPosition(self.player);
                 });
-            
+
                 self.player.onRequestPath(function(x, y) {
                     var ignored = [self.player]; // Always ignore self
-                
+
                     if(self.player.hasTarget()) {
                         ignored.push(self.player.target);
                     }
                     return self.findPath(self.player, x, y, ignored);
                 });
-            
+
                 self.player.onDeath(function() {
                     log.info(self.playerId + " is dead");
-                
+
                     self.player.stopBlinking();
                     self.player.setSprite(self.sprites["death"]);
                     self.player.animate("death", 120, 1, function() {
                         log.info(self.playerId + " was removed");
-                    
+
                         self.removeEntity(self.player);
                         self.removeFromRenderingGrid(self.player, self.player.gridX, self.player.gridY);
-                    
+
                         self.player = null;
                         self.client.disable();
-                    
+
                         setTimeout(function() {
                             self.playerdeath_callback();
                         }, 1000);
                     });
-                
+
                     self.player.forEachAttacker(function(attacker) {
                         attacker.disengage();
                         attacker.idle();
                     });
-                
+
                     self.audioManager.fadeOutCurrentMusic();
                     self.audioManager.playSound("death");
                 });
-            
+
                 self.player.onHasMoved(function(player) {
                     self.assignBubbleTo(player);
                 });
-                
+
                 self.player.onArmorLoot(function(armorName) {
                     self.player.switchArmor(self.sprites[armorName]);
                 });
-            
+
                 self.player.onSwitchItem(function() {
                     self.storage.savePlayer(self.renderer.getPlayerImage(),
                                             self.player.getArmorName(),
@@ -1060,24 +1060,24 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                         self.equipment_callback();
                     }
                 });
-                
+
                 self.player.onInvincible(function() {
                     self.invincible_callback();
                     self.player.switchArmor(self.sprites["firefox"]);
                 });
-            
+
                 self.client.onSpawnItem(function(item, x, y) {
                     log.info("Spawned " + Types.getKindAsString(item.kind) + " (" + item.id + ") at "+x+", "+y);
                     self.addItem(item, x, y);
                 });
-            
+
                 self.client.onSpawnChest(function(chest, x, y) {
                     log.info("Spawned chest (" + chest.id + ") at "+x+", "+y);
                     chest.setSprite(self.sprites[chest.getSpriteName()]);
                     chest.setGridPosition(x, y);
                     chest.setAnimation("idle_down", 150);
                     self.addEntity(chest, x, y);
-                
+
                     chest.onOpen(function() {
                         chest.stopBlinking();
                         chest.setSprite(self.sprites["death"]);
@@ -1089,10 +1089,10 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                         });
                     });
                 });
-            
+
                 self.client.onSpawnCharacter(function(entity, x, y, orientation, targetId) {
                     if(!self.entityIdExists(entity.id)) {
-                        try {
+                        try {
                             if(entity.id !== self.playerId) {
                                 entity.setSprite(self.sprites[entity.getSpriteName()]);
                                 entity.setGridPosition(x, y);
