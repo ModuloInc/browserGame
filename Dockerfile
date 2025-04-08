@@ -1,6 +1,6 @@
 FROM node:8
 
-# Corrige les sources pour l'ancien Debian Stretch
+# Corrige les sources pour l'ancien Debian Stretc
 RUN sed -i '/stretch-updates/d' /etc/apt/sources.list && \
     sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
     sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
