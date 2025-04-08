@@ -22,7 +22,7 @@ Voici un guide rapide pour faire tourner le serveur BrowserQuest dans Docker et 
 
 ---
 
-## ⚙️ Étapes complète
+## ⚙️ Étapes complètes
 
 ```bash
 # 1. Cloner le projet si ce n'est pas déjà fait
