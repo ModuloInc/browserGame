@@ -47,7 +47,7 @@ serve -l 3001 .
 ```
 
 
-Credits
+Credit
 -------
 Created by [Little Workshop](http://www.littleworkshop.fr):
 
