@@ -1,4 +1,4 @@
-var cls = require('./lib/class'),
+var cls = require('./lib/class')
     path = require('path'),
     fs = require('fs'),
     _ = require('underscore'),
