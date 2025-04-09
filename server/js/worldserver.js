@@ -60,7 +60,7 @@ module.exports = World = cls.Class.extend({
         });
         
         this.onPlayerEnter(function(player) {
-            log.info(player.name + " has joined "+ self.id);
+            console.log(player.name + " has joined "+ self.id);
             
             if(!player.hasEnteredGame) {
                 self.incrementPlayerCount();
@@ -71,7 +71,7 @@ module.exports = World = cls.Class.extend({
             self.pushRelevantEntityListTo(player);
     
             var move_callback = function(x, y) {
-                log.debug(player.name + " is moving to (" + x + ", " + y + ").");
+                console.log(player.name + " is moving to (" + x + ", " + y + ").");
                 
                 player.forEachAttacker(function(mob) {
                     var target = self.getEntityById(mob.target);
@@ -109,7 +109,7 @@ module.exports = World = cls.Class.extend({
             });
     
             player.onExit(function() {
-                log.info(player.name + " has left the game.");
+                console.log(player.name + " has left the game.");
                 self.removePlayer(player);
                 self.decrementPlayerCount();
                 
@@ -202,7 +202,7 @@ module.exports = World = cls.Class.extend({
             }
         }, 1000 / this.ups);
         
-        log.info(""+this.id+" created (capacity: "+this.maxPlayers+" players).");
+        console.log(""+this.id+" created (capacity: "+this.maxPlayers+" players).");
     },
     
     setUpdatesPerSecond: function(ups) {
@@ -256,14 +256,14 @@ module.exports = World = cls.Class.extend({
             }
         });
         
-        log.debug("Pushed "+_.size(ids)+" new spawns to "+player.id);
+        console.log("Pushed "+_.size(ids)+" new spawns to "+player.id);
     },
     
     pushToPlayer: function(player, message) {
         if(player && player.id in this.outgoingQueues) {
             this.outgoingQueues[player.id].push(message.serialize());
         } else {
-            log.error("pushToPlayer: player was undefined");
+            console.log("pushToPlayer: player was undefined");
         }
     },
     
@@ -278,7 +278,7 @@ module.exports = World = cls.Class.extend({
                 }
             });
         } else {
-            log.error("groupId: "+groupId+" is not a valid group");
+            console.log("groupId: "+groupId+" is not a valid group");
         }
     },
     
@@ -344,7 +344,7 @@ module.exports = World = cls.Class.extend({
         
         entity.destroy();
         this.removeFromGroups(entity);
-        log.debug("Removed "+ Types.getKindAsString(entity.kind) +" : "+ entity.id);
+        console.log("Removed "+ Types.getKindAsString(entity.kind) +" : "+ entity.id);
     },
     
     addPlayer: function(player) {
@@ -352,7 +352,7 @@ module.exports = World = cls.Class.extend({
         this.players[player.id] = player;
         this.outgoingQueues[player.id] = [];
         
-        //log.info("Added player : " + player.id);
+        //console.log("Added player : " + player.id);
     },
     
     removePlayer: function(player) {
@@ -488,7 +488,7 @@ module.exports = World = cls.Class.extend({
             mob.setTarget(player);
             
             this.broadcastAttacker(mob);
-            log.debug(mob.id + " is now attacking " + player.id);
+            console.log(mob.id + " is now attacking " + player.id);
         }
     },
     
@@ -500,7 +500,7 @@ module.exports = World = cls.Class.extend({
         if(id in this.entities) {
             return this.entities[id];
         } else {
-            log.error("Unknown entity : " + id);
+            console.log("Unknown entity : " + id);
         }
     },
     
@@ -750,9 +750,9 @@ module.exports = World = cls.Class.extend({
     },
     
     logGroupPlayers: function(groupId) {
-        log.debug("Players inside group "+groupId+":");
+        console.log("Players inside group "+groupId+":");
         _.each(this.groups[groupId].players, function(id) {
-            log.debug("- player "+id);
+            console.log("- player "+id);
         });
     },
     
@@ -768,7 +768,7 @@ module.exports = World = cls.Class.extend({
                 
                 if(_.size(oldGroups) > 0) {
                     entity.recentlyLeftGroups = _.difference(oldGroups, newGroups);
-                    log.debug("group diff: " + entity.recentlyLeftGroups);
+                    console.log("group diff: " + entity.recentlyLeftGroups);
                 }
             }
         }

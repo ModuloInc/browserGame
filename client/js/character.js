@@ -125,7 +125,7 @@ define(['entity', 'transition', 'timer'], function(Entity, Transition, Timer) {
             if(this.request_path_callback) {
                 return this.request_path_callback(x, y);
             } else {
-                log.error(this.id + " couldn't request pathfinding to "+x+", "+y);
+                console.log(this.id + " couldn't request pathfinding to "+x+", "+y);
                 return [];
             }
         },
@@ -406,7 +406,7 @@ define(['entity', 'transition', 'timer'], function(Entity, Transition, Timer) {
             if(!this.isAttackedBy(character)) {
                 this.attackers[character.id] = character;
             } else {
-                log.error(this.id + " is already attacked by " + character.id);
+                console.log(this.id + " is already attacked by " + character.id);
             }
         },
     
@@ -418,7 +418,7 @@ define(['entity', 'transition', 'timer'], function(Entity, Transition, Timer) {
             if(this.isAttackedBy(character)) {
                 delete this.attackers[character.id];
             } else {
-                log.error(this.id + " is not attacked by " + character.id);
+                console.log(this.id + " is not attacked by " + character.id);
             }
         },
     
@@ -444,7 +444,7 @@ define(['entity', 'transition', 'timer'], function(Entity, Transition, Timer) {
                 this.unconfirmedTarget = null;
                 this.target = character;
             } else {
-                log.debug(character.id + " is already the target of " + this.id);
+                console.log(character.id + " is already the target of " + this.id);
             }
         },
     

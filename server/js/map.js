@@ -15,13 +15,13 @@ module.exports = Map = cls.Class.extend({
 
         fs.access(filepath, fs.constants.F_OK, function (err) {
             if (err) {
-                log.error(filepath + " doesn't exist.");
+                console.log(filepath + " doesn't exist.");
                 return;
             }
 
             fs.readFile(filepath, function (err, file) {
                 if (err) {
-                    log.error("Error reading file: " + filepath);
+                    console.log("Error reading file: " + filepath);
                     return;
                 }
 
@@ -29,7 +29,7 @@ module.exports = Map = cls.Class.extend({
                     var json = JSON.parse(file.toString());
                     self.initMap(json);
                 } catch (e) {
-                    log.error("Error parsing JSON in file: " + filepath);
+                    console.log("Error parsing JSON in file: " + filepath);
                 }
             });
         });

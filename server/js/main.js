@@ -1,7 +1,7 @@
 var fs = require('fs'),
     Metrics = require('./metrics'),
     Log = require("log"),
-    log = new Log(Log.INFO);
+    log = new Log(console.log);
 
 function main(config) {
     var ws = require("./ws"),
@@ -37,7 +37,7 @@ function main(config) {
     }
     ;
 
-    log.info("Starting BrowserQuest game server...");
+    console.log("Starting BrowserQuest game server...");
 
     server.onConnect(function (connection) {
         var world, // the one in which the player will be spawned
@@ -66,7 +66,7 @@ function main(config) {
     });
 
     server.onError(function () {
-        log.error(Array.prototype.join.call(arguments, ", "));
+        console.log(Array.prototype.join.call(arguments, ", "));
     });
 
     var onPopulationChange = function () {
@@ -99,7 +99,7 @@ function main(config) {
     }
 
     process.on('uncaughtException', function (e) {
-        log.error('uncaughtException: ' + e);
+        console.log('uncaughtException: ' + e);
     });
 }
 

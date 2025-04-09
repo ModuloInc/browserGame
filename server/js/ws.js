@@ -12,7 +12,7 @@ try {
     var BISON = require('./bison');
     useBison = true;
 } catch (e) {
-    log.info("Bison not found, using JSON.stringify instead");
+    console.log("Bison not found, using JSON.stringify instead");
 }
 
 module.exports = WS = {};
@@ -83,7 +83,7 @@ var Connection = cls.Class.extend({
     },
 
     close: function (logError) {
-        log.info("Closing connection to " + this._connection.remoteAddress + ". Error: " + logError);
+        console.log("Closing connection to " + this._connection.remoteAddress + ". Error: " + logError);
         this._connection.close();
     }
 });
@@ -134,7 +134,7 @@ WS.WebSocketServer = Server.extend({
         });
 
         this._httpServer.listen(port, function () {
-            log.info("Server is listening on port " + port);
+            console.log("Server is listening on port " + port);
         });
     },
 

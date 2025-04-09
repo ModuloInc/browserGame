@@ -49,7 +49,7 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
             var url = "ws://localhost:8000/",
                 self = this;
             
-            log.info("Trying to connect to server : "+url);
+            console.log("Trying to connect to server : "+url);
 
             if(window.MozWebSocket) {
                 this.connection = new MozWebSocket(url);
@@ -71,7 +71,7 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
                 };
             } else {
                 this.connection.onopen = function(e) {
-                    log.info("Connected to server "+self.host+":"+self.port);
+                    console.log("Connected to server "+self.host+":"+self.port);
                 };
 
                 this.connection.onmessage = function(e) {
@@ -90,11 +90,11 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
                 };
 
                 this.connection.onerror = function(e) {
-                    log.error(e, true);
+                    console.log(e, true);
                 };
 
                 this.connection.onclose = function() {
-                    log.debug("Connection closed");
+                    console.log("Connection closed");
                     $('#container').addClass('error');
                     
                     if(self.disconnected_callback) {
@@ -130,7 +130,7 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
                     data = JSON.parse(message);
                 }
 
-                log.debug("data: " + message);
+                console.log("data: " + message);
 
                 if(data instanceof Array) {
                     if(data[0] instanceof Array) {
@@ -150,7 +150,7 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
                 this.handlers[action].call(this, data);
             }
             else {
-                log.error("Unknown action : " + action);
+                console.log("Unknown action : " + action);
             }
         },
     

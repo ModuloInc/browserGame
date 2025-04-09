@@ -45,7 +45,7 @@ define(function() {
 	
     	setSprite: function(sprite) {
     	    if(!sprite) {
-    	        log.error(this.id + " : sprite is null", true);
+    	        console.log(this.id + " : sprite is null", true);
     	        throw "Error";
     	    }
 	    
@@ -83,7 +83,7 @@ define(function() {
                 animation = this.animations[name];
             }
             else {
-                log.error("No animation called "+ name);
+                console.log("No animation called "+ name);
             }
             return animation;
         },
@@ -128,11 +128,11 @@ define(function() {
     	},
 	
         log_info: function(message) {
-            log.info("["+this.id+"] " + message);
+            console.log("["+this.id+"] " + message);
         },
     
         log_error: function(message) {
-            log.error("["+this.id+"] " + message);
+            console.log("["+this.id+"] " + message);
         },
     
         setHighlight: function(value) {

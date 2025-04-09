@@ -94,15 +94,15 @@ function(Camera, Item, Character, Player, Timer) {
         
             this.canvas.width = this.camera.gridW * this.tilesize * this.scale;
             this.canvas.height = this.camera.gridH * this.tilesize * this.scale;
-            log.debug("#entities set to "+this.canvas.width+" x "+this.canvas.height);
+            console.log("#entities set to "+this.canvas.width+" x "+this.canvas.height);
         
             this.backcanvas.width = this.canvas.width;
             this.backcanvas.height = this.canvas.height;
-            log.debug("#background set to "+this.backcanvas.width+" x "+this.backcanvas.height);
+            console.log("#background set to "+this.backcanvas.width+" x "+this.backcanvas.height);
         
             this.forecanvas.width = this.canvas.width;
             this.forecanvas.height = this.canvas.height;
-            log.debug("#foreground set to "+this.forecanvas.width+" x "+this.forecanvas.height);
+            console.log("#foreground set to "+this.forecanvas.width+" x "+this.forecanvas.height);
         },
     
         initFPS: function() {
@@ -285,7 +285,7 @@ function(Camera, Item, Character, Player, Timer) {
             var s = this.upscaledRendering ? 1 : this.scale;
             _.each(arguments, function(arg) {
                 if(_.isUndefined(arg) || _.isNaN(arg) || _.isNull(arg) || arg < 0) {
-                    log.error("x:"+x+" y:"+y+" w:"+w+" h:"+h+" dx:"+dx+" dy:"+dy, true);
+                    console.log("x:"+x+" y:"+y+" w:"+w+" h:"+h+" dx:"+dx+" dy:"+dy, true);
                     throw Error("A problem occured when trying to draw on the canvas");
                 }
             });

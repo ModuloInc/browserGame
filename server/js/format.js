@@ -47,7 +47,7 @@ var _ = require('underscore'),
                 return message.length > 0 && _.all(message, function(param) { return _.isNumber(param) });
             }
             else {
-                log.error("Unknown message type: "+type);
+                console.log("Unknown message type: "+type);
                 return false;
             }
         }
