@@ -6,7 +6,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./server/config_local.json:/usr/src/app/server/config.json
+      - ./server:/usr/src/app/server
     restart: unless-stopped
 
   client:
